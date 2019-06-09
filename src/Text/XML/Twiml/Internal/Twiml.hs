@@ -465,16 +465,17 @@ Say
   toXMLForGADT
 |]
 
-lang :: Voice -> Maybe (Either Lang LangAlice)
-lang (Man   l) = Left  <$> l
-lang (Woman l) = Left  <$> l
-lang (Alice r) = Right <$> r
+lang :: Voice -> Maybe String
+lang (Man   l) = toAttrValue <$> l
+lang (Woman l) = toAttrValue <$> l
+lang (Alice r) = toAttrValue <$> r
+lang (Polly v) = Just (voicePollyLanguage v)
 
 instance ToAttrs SayAttributes where
   toAttrs = flip makeAttrs
     [ makeAttr  "voice"      _sayVoice
     , makeAttr  "loop"       _sayLoop
-    , makeAttr' "language"  (_sayVoice >=> lang) (either toAttrValue toAttrValue)
+    , makeAttr' "language"  (_sayVoice >=> lang) id
     ]
 
 -------------------------------------------------------------------------------

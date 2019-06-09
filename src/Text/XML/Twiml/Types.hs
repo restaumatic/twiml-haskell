@@ -34,6 +34,8 @@ module Text.XML.Twiml.Types
   , Voice(..)
   , Lang(..)
   , LangAlice(..)
+  , VoicePolly(..)
+  , voicePollyLanguage
   , Transport(..)
   , ConferenceBeep(..)
   , Reason(..)
@@ -145,6 +147,7 @@ data Voice
   = Man   (Maybe Lang)
   | Woman (Maybe Lang)
   | Alice (Maybe LangAlice)
+  | Polly VoicePolly
   deriving (Data, Eq, Generic, NFData, Ord, Read, Show, Typeable)
 
 -- | Languages spoken by voices 'Man' and 'Woman'. See
@@ -225,6 +228,165 @@ instance ToAttrValue LangAlice where
   toAttrValue ZhHK = "zh-HK"
   toAttrValue ZhTW = "zh-TW"
 
+-- | Voices available when using the Polly text-to-speech engine. See
+-- <https://www.twilio.com/docs/voice/twiml/say/text-speech#voices>.
+data VoicePolly
+  = PollyMads            -- Danish (da-DK), Male
+  | PollyNaja            -- Danish (da-DK), Female
+  | PollyLotte           -- Dutch (nl-NL), Female
+  | PollyRuben           -- Dutch (nl-NL), Male
+  | PollyNicole          -- English (Australian) (en-AU), Female
+  | PollyRussell         -- English (Australian) (en-AU), Male
+  | PollyAmy             -- English (British) (en-GB), Female
+  | PollyBrian           -- English (British) (en-GB), Male
+  | PollyEmma            -- English (British) (en-GB), Female
+  | PollyRaveena         -- English (Indian) (en-IN), Female
+  | PollyIvy             -- English (US) (en-US), Female
+  | PollyJoanna          -- English (US) (en-US), Female
+  | PollyJoey            -- English (US) (en-US), Male
+  | PollyJustin          -- English (US) (en-US), Male
+  | PollyKendra          -- English (US) (en-US), Female
+  | PollyKimberly        -- English (US) (en-US), Female
+  | PollyMatthew         -- English (US) (en-US), Male
+  | PollySalli           -- English (US) (en-US), Female
+  | PollyGeraint         -- English (Welsh) (en-GB-WLS), Male
+  | PollyCeline          -- French (fr-FR), Female
+  | PollyMathieu         -- French (fr-FR), Male
+  | PollyChantal         -- French (Canadian) (fr-CA), Female
+  | PollyHans            -- German (de-DE), Male
+  | PollyMarlene         -- German (de-DE), Female
+  | PollyVicki           -- German (de-DE), Female
+  | PollyDora            -- Icelandic (is-IS), Female
+  | PollyKarl            -- Icelandic (is-IS), Male
+  | PollyCarla           -- Italian (it-IT), Female
+  | PollyGiorgio         -- Italian (it-IT), Male
+  | PollyMizuki          -- Japanese (ja-JP), Female
+  | PollyTakumi          -- Japanese (ja-JP), Male
+  | PollyLiv             -- Norwegian (nb-NO), Female
+  | PollyJacek           -- Polish (pl-PL), Male
+  | PollyJan             -- Polish (pl-PL), Male
+  | PollyEwa             -- Polish (pl-PL), Female
+  | PollyMaja            -- Polish (pl-PL), Female
+  | PollyRicardo         -- Portuguese (Brazilian) (pt-BR), Male
+  | PollyVitoria         -- Portuguese (Brazilian) (pt-BR), Female
+  | PollyCristiano       -- Portuguese (European) (pt-PT), Male
+  | PollyInes            -- Portuguese (European) (pt-PT), Female
+  | PollyCarmen          -- Romanian (ro-RO), Female
+  | PollyMaxim           -- Russian (ru-RU), Male
+  | PollyTatyana         -- Russian (ru-RU), Female
+  | PollyConchita        -- Spanish (Castilian) (es-ES), Female
+  | PollyEnrique         -- Spanish (Castilian) (es-ES), Male
+  | PollyMiguel          -- Spanish (Latin American) (es-US), Male
+  | PollyPenelope        -- Spanish (Latin American) (es-US), Female
+  | PollyAstrid          -- Swedish (sv-SE), Female
+  | PollyFiliz           -- Turkish (tr-TR), Female
+  | PollyGwyneth         -- Welsh (cy-GB), Female
+  deriving (Data, Eq, Generic, NFData, Ord, Read, Show, Typeable)
+
+instance ToAttrValue VoicePolly where
+  toAttrValue PollyMads            = "Polly.Mads"
+  toAttrValue PollyNaja            = "Polly.Naja"
+  toAttrValue PollyLotte           = "Polly.Lotte"
+  toAttrValue PollyRuben           = "Polly.Ruben"
+  toAttrValue PollyNicole          = "Polly.Nicole"
+  toAttrValue PollyRussell         = "Polly.Russell"
+  toAttrValue PollyAmy             = "Polly.Amy"
+  toAttrValue PollyBrian           = "Polly.Brian"
+  toAttrValue PollyEmma            = "Polly.Emma"
+  toAttrValue PollyRaveena         = "Polly.Raveena"
+  toAttrValue PollyIvy             = "Polly.Ivy"
+  toAttrValue PollyJoanna          = "Polly.Joanna"
+  toAttrValue PollyJoey            = "Polly.Joey"
+  toAttrValue PollyJustin          = "Polly.Justin"
+  toAttrValue PollyKendra          = "Polly.Kendra"
+  toAttrValue PollyKimberly        = "Polly.Kimberly"
+  toAttrValue PollyMatthew         = "Polly.Matthew"
+  toAttrValue PollySalli           = "Polly.Salli"
+  toAttrValue PollyGeraint         = "Polly.Geraint"
+  toAttrValue PollyCeline          = "Polly.Celine"
+  toAttrValue PollyMathieu         = "Polly.Mathieu"
+  toAttrValue PollyChantal         = "Polly.Chantal"
+  toAttrValue PollyHans            = "Polly.Hans"
+  toAttrValue PollyMarlene         = "Polly.Marlene"
+  toAttrValue PollyVicki           = "Polly.Vicki"
+  toAttrValue PollyDora            = "Polly.Dora"
+  toAttrValue PollyKarl            = "Polly.Karl"
+  toAttrValue PollyCarla           = "Polly.Carla"
+  toAttrValue PollyGiorgio         = "Polly.Giorgio"
+  toAttrValue PollyMizuki          = "Polly.Mizuki"
+  toAttrValue PollyTakumi          = "Polly.Takumi"
+  toAttrValue PollyLiv             = "Polly.Liv"
+  toAttrValue PollyJacek           = "Polly.Jacek"
+  toAttrValue PollyJan             = "Polly.Jan"
+  toAttrValue PollyEwa             = "Polly.Ewa"
+  toAttrValue PollyMaja            = "Polly.Maja"
+  toAttrValue PollyRicardo         = "Polly.Ricardo"
+  toAttrValue PollyVitoria         = "Polly.Vitoria"
+  toAttrValue PollyCristiano       = "Polly.Cristiano"
+  toAttrValue PollyInes            = "Polly.Ines"
+  toAttrValue PollyCarmen          = "Polly.Carmen"
+  toAttrValue PollyMaxim           = "Polly.Maxim"
+  toAttrValue PollyTatyana         = "Polly.Tatyana"
+  toAttrValue PollyConchita        = "Polly.Conchita"
+  toAttrValue PollyEnrique         = "Polly.Enrique"
+  toAttrValue PollyMiguel          = "Polly.Miguel"
+  toAttrValue PollyPenelope        = "Polly.Penelope"
+  toAttrValue PollyAstrid          = "Polly.Astrid"
+  toAttrValue PollyFiliz           = "Polly.Filiz"
+  toAttrValue PollyGwyneth         = "Polly.Gwyneth"
+
+voicePollyLanguage :: VoicePolly -> String
+voicePollyLanguage PollyMads            = "da-DK"
+voicePollyLanguage PollyNaja            = "da-DK"
+voicePollyLanguage PollyLotte           = "nl-NL"
+voicePollyLanguage PollyRuben           = "nl-NL"
+voicePollyLanguage PollyNicole          = "en-AU"
+voicePollyLanguage PollyRussell         = "en-AU"
+voicePollyLanguage PollyAmy             = "en-GB"
+voicePollyLanguage PollyBrian           = "en-GB"
+voicePollyLanguage PollyEmma            = "en-GB"
+voicePollyLanguage PollyRaveena         = "en-IN"
+voicePollyLanguage PollyIvy             = "en-US"
+voicePollyLanguage PollyJoanna          = "en-US"
+voicePollyLanguage PollyJoey            = "en-US"
+voicePollyLanguage PollyJustin          = "en-US"
+voicePollyLanguage PollyKendra          = "en-US"
+voicePollyLanguage PollyKimberly        = "en-US"
+voicePollyLanguage PollyMatthew         = "en-US"
+voicePollyLanguage PollySalli           = "en-US"
+voicePollyLanguage PollyGeraint         = "en-GB-WLS"
+voicePollyLanguage PollyCeline          = "fr-FR"
+voicePollyLanguage PollyMathieu         = "fr-FR"
+voicePollyLanguage PollyChantal         = "fr-CA"
+voicePollyLanguage PollyHans            = "de-DE"
+voicePollyLanguage PollyMarlene         = "de-DE"
+voicePollyLanguage PollyVicki           = "de-DE"
+voicePollyLanguage PollyDora            = "is-IS"
+voicePollyLanguage PollyKarl            = "is-IS"
+voicePollyLanguage PollyCarla           = "it-IT"
+voicePollyLanguage PollyGiorgio         = "it-IT"
+voicePollyLanguage PollyMizuki          = "ja-JP"
+voicePollyLanguage PollyTakumi          = "ja-JP"
+voicePollyLanguage PollyLiv             = "nb-NO"
+voicePollyLanguage PollyJacek           = "pl-PL"
+voicePollyLanguage PollyJan             = "pl-PL"
+voicePollyLanguage PollyEwa             = "pl-PL"
+voicePollyLanguage PollyMaja            = "pl-PL"
+voicePollyLanguage PollyRicardo         = "pt-BR"
+voicePollyLanguage PollyVitoria         = "pt-BR"
+voicePollyLanguage PollyCristiano       = "pt-PT"
+voicePollyLanguage PollyInes            = "pt-PT"
+voicePollyLanguage PollyCarmen          = "ro-RO"
+voicePollyLanguage PollyMaxim           = "ru-RU"
+voicePollyLanguage PollyTatyana         = "ru-RU"
+voicePollyLanguage PollyConchita        = "es-ES"
+voicePollyLanguage PollyEnrique         = "es-ES"
+voicePollyLanguage PollyMiguel          = "es-US"
+voicePollyLanguage PollyPenelope        = "es-US"
+voicePollyLanguage PollyAstrid          = "sv-SE"
+voicePollyLanguage PollyFiliz           = "tr-TR"
+voicePollyLanguage PollyGwyneth         = "cy-GB"
+
 -- | See <https://www.twilio.com/docs/api/twiml/sip#transport>.
 data Transport = TCP | UDP
   deriving (Bounded, Data, Enum, Eq, Generic, NFData, Ord, Read, Show, Typeable)
@@ -263,3 +425,4 @@ instance ToAttrValue Voice where
   toAttrValue (Man   _) = "man"
   toAttrValue (Woman _) = "woman"
   toAttrValue (Alice _) = "alice"
+  toAttrValue (Polly v) = toAttrValue v
