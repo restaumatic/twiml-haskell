@@ -126,6 +126,10 @@ module Text.XML.Twiml.Internal.Twiml
   , Sms
   , SmsF(..)
   , SmsAttributes(..)
+
+    -- *** DiscardIndex hack
+  , DiscardIndexF(..)
+  , discardIndex
   ) where
 
 import Control.Monad
@@ -562,6 +566,16 @@ instance ToAttrs GatherAttributes where
     , makeAttr "numDigits"   _gatherNumDigits
     ]
 
+data DiscardIndexF (i :: [*]) a where
+  DiscardIndexF :: (Show (IxFree VoiceVerbsF j ()), ToXML (IxFree VoiceVerbsF j ())) => IxFree VoiceVerbsF j () -> a -> DiscardIndexF '[] a
+
+deriving instance Functor (DiscardIndexF i)
+
+deriving instance Show a => Show (DiscardIndexF i a) 
+
+instance ToXML a => ToXML (DiscardIndexF i a) where
+  toXML (DiscardIndexF a k) = toXML a ++ toXML k
+
 -------------------------------------------------------------------------------
 -- TwiML
 -------------------------------------------------------------------------------
@@ -591,6 +605,7 @@ newtype VoiceVerbsF i a = VoiceVerbsF
       RedirectF i :+: -- Shared between Voice and Messaging TwiML
       RejectF   i :+:
       PauseF    i :+:
+      DiscardIndexF i :+:
       EndF      i ) a -- Shared between Voice and Messaging TwiML
   } deriving (Functor, Generic, Show, Typeable)
 
@@ -608,6 +623,7 @@ instance
               RedirectF i :+:
               RejectF   i :+:
               PauseF    i :+:
+              DiscardIndexF i :+:
               EndF      i )
   ) => f i :<: VoiceVerbsF i where
   inj = VoiceVerbsF . inj
@@ -706,3 +722,9 @@ messagingResponse = MessagingTwiml
 
 response :: IxFree VoiceVerbsF i Void -> VoiceTwiml
 response = voiceResponse
+
+-- | Get rid of the indices of the indexed monad.
+-- Can result in invalid TwiML.
+-- Only use this when your code can't typecheck otherwise.
+discardIndex :: (Functor1 f, DiscardIndexF '[] :<: f '[], ToXML (IxFree VoiceVerbsF i ())) => IxFree VoiceVerbsF i () -> IxFree f '[] ()
+discardIndex a = iliftF . inj $ DiscardIndexF a ()
