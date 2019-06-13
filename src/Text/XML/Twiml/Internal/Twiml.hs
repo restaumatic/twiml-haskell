@@ -567,7 +567,7 @@ instance ToAttrs GatherAttributes where
     ]
 
 data DiscardIndexF (i :: [*]) a where
-  DiscardIndexF :: (Show (IxFree VoiceVerbsF j ()), ToXML (IxFree VoiceVerbsF j ())) => IxFree VoiceVerbsF j () -> a -> DiscardIndexF '[] a
+  DiscardIndexF :: Show (IxFree VoiceVerbsF j ()) => IxFree VoiceVerbsF j Void -> a -> DiscardIndexF '[] a
 
 deriving instance Functor (DiscardIndexF i)
 
@@ -726,5 +726,5 @@ response = voiceResponse
 -- | Get rid of the indices of the indexed monad.
 -- Can result in invalid TwiML.
 -- Only use this when your code can't typecheck otherwise.
-discardIndex :: (Functor1 f, DiscardIndexF '[] :<: f '[], ToXML (IxFree VoiceVerbsF i ())) => IxFree VoiceVerbsF i () -> IxFree f '[] ()
+discardIndex :: (Functor1 f, DiscardIndexF '[] :<: f '[]) => IxFree VoiceVerbsF i Void -> IxFree f '[] ()
 discardIndex a = iliftF . inj $ DiscardIndexF a ()
