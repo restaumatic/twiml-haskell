@@ -7,11 +7,11 @@ license:             BSD3
 license-file:        LICENSE
 author:              Mark Andrus Roberts
 maintainer:          markandrusroberts@gmail.com
--- copyright:           
+-- copyright:
 category:            Text, Web, XML
 build-type:          Simple
 cabal-version:       >=1.8
-tested-with:         GHC == 7.10.1, GHC == 7.10.2, GHC == 8.0.1, GHC == 8.0.2
+tested-with:         GHC == 7.10.1, GHC == 7.10.2, GHC == 8.0.1, GHC == 8.0.2, GHC == 9.0.2
 
 source-repository head
   type: git
@@ -41,11 +41,11 @@ library
                        Text.XML.Twiml.Verbs.Sms
   other-modules:       Text.XML.Twiml.Internal.TH
   hs-source-dirs:      src
-  -- other-modules:       
+  -- other-modules:
   build-depends:       base ==4.*,
                        data-default >=0.5 && < 0.8,
                        deepseq ==1.4.*,
-                       lens ==4.*,
+                       lens >=4.9,
                        network-uri >=2.6,
                        parsec ==3.*,
                        text ==1.*,

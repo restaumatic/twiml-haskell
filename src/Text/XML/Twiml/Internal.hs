@@ -66,6 +66,7 @@ import Data.Data
 import Data.Maybe (mapMaybe)
 import GHC.Generics (Generic)
 import Text.XML.Light
+import Data.Kind (Type)
 
 {- Data types à la carte -}
 
@@ -146,7 +147,7 @@ class Show1 f where
 -- (\<*>) :: 'IxApplicative' f => f i (a -> b) -> f j a -> f (i '<>' j) b
 -- (\<*>) = 'iap'
 -- @
-class Functor1 f => IxApplicative (f :: k -> * -> *) where
+class Functor1 f => IxApplicative (f :: k -> Type -> Type) where
   type Identity :: k
 
   type (i :: k) <> (j :: k) :: k
@@ -181,7 +182,7 @@ class Functor1 f => IxApplicative (f :: k -> * -> *) where
 --
 -- This is the technique employed by the
 -- <Text-XML-Twiml-Syntax.html Text.XML.Twiml.Syntax> module.
-class IxApplicative m => IxMonad (m :: k -> * -> *) where
+class IxApplicative m => IxMonad (m :: k -> Type -> Type) where
   -- | The indexed equivalent of @(>>=)@
   ibind :: m i a -> (a -> m j b) -> m (i <> j) b
 

@@ -46,6 +46,7 @@ import Language.Haskell.TH
 import Language.Haskell.TH.Quote
 import Language.Haskell.TH.Syntax
 import Text.Parsec
+import Language.Haskell.TH.Lib
 
 example :: String
 example = unlines [
@@ -331,7 +332,7 @@ twimlSpecToData spec@(TwimlSpec{..}) = pure $
     a' = mkName "a"
     i = VarT i'
     a = VarT a'
-    tyVarBndrs = [KindedTV i' $ AppT ListT StarT, PlainTV a']
+    tyVarBndrs = [kindedTV i' $ AppT ListT StarT, plainTV a']
 
     -- | @Proxy@
     proxy = ConT $ mkName "Proxy"
@@ -355,9 +356,9 @@ twimlSpecToData spec@(TwimlSpec{..}) = pure $
     con = ForallC [] cxt'
         . NormalC conNameF $ specToStrictTypes spec
 
-    -- | @data FooF i a where FooF :: a -> FooF '[Foo] a@
+    -- | @data FooF i a where FooF :: a -> FooF '[Foo] a
 #if MIN_VERSION_template_haskell(2,12,0)
-    gadt = DataD [] conNameF tyVarBndrs Nothing [con] [DerivClause Nothing []]
+    gadt = DataD [] conNameF (tyVarBndrs) Nothing [con] [DerivClause Nothing []]
 #else
 #if MIN_VERSION_template_haskell(2,11,0)
     gadt = DataD [] conNameF tyVarBndrs Nothing [con] []
