@@ -137,7 +137,7 @@ specToGADTArity :: TwimlSpec -> Int
 specToGADTArity spec@(TwimlSpec{..}) = length (getAllRequired parameters) + (if hasAttributes spec then 1 else 0) + (if recursive then 1 else 0)
 
 specToGADTNames :: TwimlSpec -> [Name]
-specToGADTNames spec@(TwimlSpec{..}) =
+specToGADTNames spec@(TwimlSpec{}) =
   take (specToGADTArity spec) $ map (mkName . return) ['a'..'z']
 
 specToGADTAttributesName :: TwimlSpec -> Maybe Name
@@ -153,8 +153,9 @@ specToGADTChildName spec@(TwimlSpec{..}) = go $ zip parameters $ specToGADTNames
   go ((Attributes _, _):rest) = go rest
 
 specToGADTPat :: TwimlSpec -> Pat
-specToGADTPat spec@(TwimlSpec{..}) = ConP (specToGADTName spec) varPs where
-  varPs = map VarP $ specToGADTNames spec
+specToGADTPat spec@(TwimlSpec{..}) = ConP name [] varPs where
+  name = specToGADTName spec
+  varPs = VarP <$> specToGADTNames spec
 
 specToAttributesListE :: TwimlSpec -> Exp
 specToAttributesListE (TwimlSpec{..}) = ListE . map go $ getAllAttributes parameters where
