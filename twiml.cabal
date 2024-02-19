@@ -48,7 +48,7 @@ library
                        lens >=4.9,
                        network-uri >=2.6,
                        parsec >=3,
-                       text ==1.*,
+                       text ==2.*,
                        template-haskell >=2,
                        void ==0.*,
                        xml >=1.3
